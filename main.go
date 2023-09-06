@@ -1,32 +1,19 @@
 package main
 
 import (
-	"net/http"
+	"movies/handlers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Movie struct {
-	ID          int    `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-}
-
-var movies = []Movie{}
-
-func CreateMovie(c *gin.Context) {
-	var newMovie Movie
-	if err := c.ShouldBindJSON(&newMovie); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	}
-
-	newMovie.ID = len(movies) + 1
-	movies = append(movies, newMovie)
-	c.JSON(http.StatusOK, newMovie)
-}
-
 func main() {
 	r := gin.Default()
-	r.POST("/movie", CreateMovie)
+
+	r.POST("/movie", handlers.CreateMovie)
+	r.GET("/movies", handlers.GetMovies)
+	r.GET("/movie/:id", handlers.GetMoviesByID)
+	r.PUT("/movie/:id", handlers.UpdateMovie)
+	r.DELETE("/movie/:id", handlers.DeleteMovie)
+
 	r.Run(":8080")
 }
