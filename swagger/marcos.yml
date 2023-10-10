@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  description: API for managing movies.
+  version: 1.0.0
+
+paths:
+  /movie:
+    delete:
+      summary: Deletar movie.
+      description: Remove movie .
+      operationId: deleteMovieById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do filme a ser deletado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Filme deletado com sucesso, sem conteúdo de resposta.
+        '404':
+          description: Filme não encontrado.
+        '500':
+          description: Erro interno do servidor.
